@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
 
 app.get('/pokemon', async (req, res) => {
 
-  const pokemons = await knex.select('name', 'desc', 'type_id', 'id')
+  const pokemons = await knex.select('name', 'desc', 'type_id', 'id', 'type', 'race')
   .from('pocket-monster')
 
   res.send(pokemons);
@@ -32,7 +32,7 @@ app.get('/pokemon', async (req, res) => {
 
 app.get('/pokemon/:id', async (req, res) => {
 
-  const pokemon = await knex.select('name', 'desc', 'type_id', 'id')
+  const pokemon = await knex.select('name', 'desc', 'type_id', 'id', 'type', 'race')
   .from('pocket-monster')
   .where('id', req.params.id)
 
@@ -45,6 +45,8 @@ app.post('/pokemon',jsonParser, async (req, res) => {
       name: req.body.name,
       desc: req.body.desc,
       type_id: req.body.type_id,
+      type: req.body.type,
+      race: req.budy.race,
     })
   
     res.send(pokemon);

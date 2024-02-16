@@ -22,34 +22,110 @@ app.get('/', function(req, res) {
   res.send('Hello world!');
 });
 
-app.get('/pokemon', async (req, res) => {
 
-  const pokemons = await knex.select('name', 'desc', 'type_id', 'id', 'breed_id')
-  .from('pocket-monster')
 
-  res.send(pokemons);
+
+
+app.get('/animal', async (req, res) => {
+
+  const animal = await knex.select('id', 'desc', 'gender', 'birth_date', 'breed_id')
+  .from('animal')
+
+  res.send(animal);
 });
 
-app.get('/pokemon/:id', async (req, res) => {
+app.get('/animal/:id', async (req, res) => {
 
-  const pokemon = await knex.select('name', 'desc', 'type_id', 'id', 'breed_id')
-  .from('pocket-monster')
+  const animal = await knex.select('id', 'desc', 'gender', 'birth_date', 'breed_id')
+  .from('animal')
   .where('id', req.params.id)
 
-  res.send(pokemon);
+  res.send(animal);
 });
 
-app.post('/pokemon',jsonParser, async (req, res) => {
+app.post('/animal',jsonParser, async (req, res) => {
 
-    const pokemon = await knex('pocket-monster').insert({
-      name: req.body.name,
+    const animal = await knex('animal').insert({
       desc: req.body.desc,
-      type_id: req.body.type_id,
-      breed_id: req.budy.breed_id,
+      gender: req.body.gender,
+      birth_date: req.body.birth_date,
+      breed_id: req.body.breed_id,
     })
   
-    res.send(pokemon);
+    res.send(animal);
 })
+
+
+
+
+
+
+app.get('/breed', async (req, res) => {
+
+  const breed = await knex.select('id', 'breed', 'sub_breed_id')
+  .from('breed')
+
+  res.send(breed);
+});
+
+app.get('/breed/:id', async (req, res) => {
+
+  const breed = await knex.select('id', 'breed', 'sub_breed_id')
+  .from('breed')
+  .where('id', req.params.id)
+
+  res.send(breed);
+});
+
+app.post('/breed',jsonParser, async (req, res) => {
+
+    const breed = await knex('breed').insert({
+      breed: req.body.breed,
+      sub_breed_id: req.body.sub_breed_id,
+      
+    })
+  
+    res.send(breed);
+})
+
+
+
+
+
+
+
+app.get('/sub_breed', async (req, res) => {
+
+  const sub_breed = await knex.select('id', 'sub_breed',)
+  .from('sub_breed')
+
+  res.send(sub_breed);
+});
+
+app.get('/sub_breed/:id', async (req, res) => {
+
+  const sub_breed = await knex.select('id', 'sub_breed')
+  .from('sub_breed')
+  .where('id', req.params.id)
+
+  res.send(sub_breed);
+});
+
+app.post('/sub_breed',jsonParser, async (req, res) => {
+
+    const sub_breed = await knex('sub_breed').insert({
+      sub_breed: req.body.sub_breed,
+    
+      
+    })
+  
+    res.send(sub_breed);
+})
+
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

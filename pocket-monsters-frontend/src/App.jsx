@@ -5,6 +5,8 @@ import Monsters from './components/Monsters';
 import Types from './components/Types';
 import MonsterDetail from './components/MonsterDetail';
 import MonsterForm from './components/MonsterForm';
+import TypeDetail from './components/TypeDetail';
+import TypeForm from './components/TypeForm';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route path="monsters/:id" element={<MonsterDetail />} />
           <Route path="monsters/new" element={<MonsterForm />} />
           <Route path="types" element={<Types />} />
+          <Route path="types/:id" element={<TypeDetail />} />
+          <Route path="types/new" element={<TypeForm />} />
         </Route>
       </Routes>
     </Router>

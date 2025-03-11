@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const TypesContainer = styled.div`
   padding: 1rem 0;
@@ -33,6 +34,7 @@ const TypeCard = styled(motion.div)`
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   text-align: center;
+  cursor: pointer;
   
   &:hover {
     transform: translateY(-5px);
@@ -82,11 +84,36 @@ const ErrorMessage = styled.div`
   margin: 2rem 0;
 `;
 
+const AddButton = styled(motion.button)`
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #64f0ff, #8a64ff);
+  color: #fff;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(100, 240, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 25px rgba(100, 240, 255, 0.6);
+  }
+`;
+
 const Types = () => {
   const [types, setTypes] = useState([]);
   const [monsters, setMonsters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -166,7 +193,11 @@ const Types = () => {
           {types.map((type) => {
             const monsterCount = getMonsterCountByType(type.id);
             return (
-              <TypeCard key={type.id} variants={itemVariants}>
+              <TypeCard 
+                key={type.id} 
+                variants={itemVariants}
+                onClick={() => navigate(`/types/${type.id}`)}
+              >
                 <TypeName>{type.type}</TypeName>
                 <TypeCount>
                   {monsterCount} {monsterCount === 1 ? 'Monster' : 'Monsters'}
@@ -175,6 +206,19 @@ const Types = () => {
             );
           })}
         </TypesGrid>
+      )}
+      
+      {!loading && !error && (
+        <AddButton
+          onClick={() => navigate('/types/new')}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+        >
+          +
+        </AddButton>
       )}
     </TypesContainer>
   );
